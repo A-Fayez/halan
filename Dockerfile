@@ -3,8 +3,6 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /code
 
-# RUN apk add --no-cache  build-base libffi-dev
-
 COPY requirements.txt requirements.txt
 
 RUN pip3 install -r requirements.txt
