@@ -1,15 +1,9 @@
-from flask import Flask, request, jsonify, make_response
-from flask_restful import reqparse, abort, Api, Resource
-from flask_sqlalchemy import SQLAlchemy
-from dataclasses import dataclass
-
+from flask_restful import Api, Resource
+from flask import make_response, jsonify, request
+from config import db, Ip, app
 import os
 
-app = Flask(__name__)
 api = Api(app)
-app.config.from_object("config.Config")
-db = SQLAlchemy(app)
-db.create_all()
 
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("No database configurateion detected")
@@ -45,20 +39,6 @@ class AllIpResource(Resource):
 api.add_resource(HalanRocks, "/")
 api.add_resource(IpResource, "/ip")
 api.add_resource(AllIpResource, "/allips")
-
-
-@dataclass
-class Ip(db.Model):
-    __tablename__ = "ips"
-
-    id: int
-    ip_str: str
-
-    id = db.Column(db.Integer, primary_key=True)
-    ip_str = db.Column(db.String(16), nullable=False)
-
-    def __repr__(self):
-        return f"ip: {self.ip_str}"
 
 
 if __name__ == "__main__":
