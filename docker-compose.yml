@@ -8,7 +8,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/dev-db
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
       - FLASK_APP=api.py
     depends_on:
       - db
