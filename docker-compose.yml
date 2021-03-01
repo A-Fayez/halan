@@ -8,7 +8,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - DATABASE_URL=postgresql://halan:halan@db:5432/dev-db
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/dev-db
       - FLASK_APP=api.py
     depends_on:
       - db
@@ -18,9 +18,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=halan
-      - POSTGRES_PASSWORD=halan
-      - POSTGRES_DB=dev-db
-
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
 volumes:
   postgres_data:

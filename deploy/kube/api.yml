@@ -1,0 +1,58 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: halan-ingress
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: halan
+            port:
+              number: 80
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: halan
+spec:
+  selector:
+    app: halan
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: halan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: halan
+  template:
+    metadata:
+      labels:
+        app: halan
+    spec:
+      containers:
+        - name: halan-ips
+          image: afayez14/ips-api
+          imagePullPolicy: IfNotPresent
+
+          env:
+          - name: FLASK_APP
+            value: "api.py"
+
+          ports:
+            - containerPort: 5000
+              protocol: TCP
