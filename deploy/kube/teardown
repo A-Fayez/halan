@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -uo pipefail
+trap 's=$?; echo "$0: Error on line "$LINENO": $BASH_COMMAND"; exit $s' ERR
+IFS=$'\n\t'
+
+: "${HELM_RELEASE_NAME:=pg-release}"
+: "${CLUSTER_NAME:=halan-cluster}"
+
+helm uninstall "${HELM_RELEASE_NAME}"
+k3d cluster delete "${CLUSTER_NAME}"

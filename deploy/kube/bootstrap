@@ -8,6 +8,13 @@ SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 : "${HELM_RELEASE_NAME:=pg-release}"
 : "${CLUSTER_NAME:=halan-cluster}"
 : "${APP_NAME:=halan}"
+: "${INGRESS_HTTP_PORT:=80}"
+
+k3d cluster create \
+    -p "${INGRESS_HTTP_PORT}:80@loadbalancer" \
+    --agents 2 \
+    "${CLUSTER_NAME}"
+
 
 # deploy postgres 
 helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -18,8 +25,8 @@ helm install "${HELM_RELEASE_NAME}" bitnami/postgresql
 : "${DB_PORT:=5432}"
 : "${DB_NAME:=postgres}"
 
-POSTGRESQL_PASSWORD=$(kubectl get secret --namespace default\
-    "${HELM_RELEASE_NAME}"-postgresql\
+POSTGRESQL_PASSWORD=$(kubectl get secret --namespace default \
+    "${HELM_RELEASE_NAME}"-postgresql \
     -o jsonpath="{.data.postgresql-password}" | base64 --decode)
 
 DATABASE_URL="postgres://${DB_USER}:${POSTGRESQL_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
