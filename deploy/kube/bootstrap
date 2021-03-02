@@ -18,7 +18,9 @@ k3d cluster create \
 
 # deploy postgres 
 helm repo add bitnami https://charts.bitnami.com/bitnami
-helm install "${HELM_RELEASE_NAME}" bitnami/postgresql
+helm install -f "${SCRIPT_DIR}/values.yml" "${HELM_RELEASE_NAME}" bitnami/postgresql \
+    --set postgresqlPassword=secretAdminPassword
+    
 
 : "${DB_USER:=postgres}"
 : "${DB_HOST:=$HELM_RELEASE_NAME-postgresql}"

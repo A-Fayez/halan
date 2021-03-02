@@ -61,7 +61,7 @@ $ k3d cluster create \
     "${CLUSTER_NAME}"
 ```
 
-The command creates a k8s cluster using rancher k8s with two agents and port-forwards traffic from the host port, in this case, INGRESS_HTTP_PORT to port 80 inside the cluster's load balancer. An [ingress resouce definition](https://github.com/A-Fayez/halan/blob/6f5ab53b79e619fd21f8caa4fd7e29f5a62a34d4/deploy/kube/api.yml#L2) is used to route requests to the [api service](https://github.com/A-Fayez/halan/blob/6f5ab53b79e619fd21f8caa4fd7e29f5a62a34d4/deploy/kube/api.yml#L19).
+The command creates a kubernetes cluster using rancher k3s with two agents and port-forwards traffic from the host port, in this case, INGRESS_HTTP_PORT to port 80 inside the cluster's load balancer. An [ingress resouce definition](https://github.com/A-Fayez/halan/blob/6f5ab53b79e619fd21f8caa4fd7e29f5a62a34d4/deploy/kube/api.yml#L2) is used to route requests to the [api service](https://github.com/A-Fayez/halan/blob/6f5ab53b79e619fd21f8caa4fd7e29f5a62a34d4/deploy/kube/api.yml#L19).
 
 2.
 

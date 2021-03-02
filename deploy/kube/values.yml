@@ -1,0 +1,3 @@
+replication:
+  enabled: true
+  readReplicas: 1

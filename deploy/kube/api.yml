@@ -35,7 +35,7 @@ kind: Deployment
 metadata:
   name: halan
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: halan
