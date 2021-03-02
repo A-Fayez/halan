@@ -48,11 +48,6 @@ spec:
         - name: halan
           image: afayez14/ips-api
           imagePullPolicy: IfNotPresent
-
-          env:
-          - name: FLASK_APP
-            value: "api.py"
-
           ports:
             - containerPort: 5000
               protocol: TCP
