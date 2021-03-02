@@ -1,0 +1,12 @@
+# These values are generated from the environment
+# see https://github.com/A-Fayez/halan/blob/cd62b483ec2e44b2c3613d489b2daea2ff82458b/deploy/kube/bootstrap#L30
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: halan-config-map
+  namespace: default
+data:
+  DB_USER: "postgres"
+  DB_HOST: "pg-release-postgresql"
+  DB_PORT: "5432"
+  DB_NAME: "postgres"

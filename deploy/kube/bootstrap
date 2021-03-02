@@ -27,11 +27,18 @@ helm install -f "${SCRIPT_DIR}/values.yml" "${HELM_RELEASE_NAME}" bitnami/postgr
 : "${DB_PORT:=5432}"
 : "${DB_NAME:=postgres}"
 
-POSTGRESQL_PASSWORD=$(kubectl get secret --namespace default \
-    "${HELM_RELEASE_NAME}"-postgresql \
-    -o jsonpath="{.data.postgresql-password}" | base64 --decode)
+cat <<EOF >"${SCRIPT_DIR}/configmap.yml"
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: halan-config-map
+  namespace: default
+data:
+  DB_USER: "${DB_USER}"
+  DB_HOST: "${DB_HOST}"
+  DB_PORT: "${DB_PORT}"
+  DB_NAME: "${DB_NAME}"
+EOF
 
-DATABASE_URL="postgres://${DB_USER}:${POSTGRESQL_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
-
+kubectl create -f "${SCRIPT_DIR}/configmap.yml"
 kubectl apply -f "${SCRIPT_DIR}"/api.yml
-kubectl set env deployment/"${APP_NAME}" DATABASE_URL="${DATABASE_URL}"
