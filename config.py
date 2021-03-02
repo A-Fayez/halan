@@ -14,7 +14,6 @@ _db_url = f"postgres://{_db_user}:{_db_password}@{_db_host}:{_db_port}/{_db_name
 
 
 class Config(object):
-
     SQLALCHEMY_DATABASE_URI = _db_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

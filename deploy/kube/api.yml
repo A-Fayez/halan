@@ -48,11 +48,16 @@ spec:
         - name: halan
           image: afayez14/ips-api
           imagePullPolicy: IfNotPresent
-
+          envFrom:
+          - configMapRef:
+              name: halan-config-map
           env:
-          - name: FLASK_APP
-            value: "api.py"
-
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-release-postgresql
+                  key: postgresql-password
+            
           ports:
             - containerPort: 5000
               protocol: TCP

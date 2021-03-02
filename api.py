@@ -6,9 +6,6 @@ import os
 api = Api(app)
 db.create_all()
 
-if not os.getenv("DATABASE_URL"):
-    raise RuntimeError("No database configurateion detected")
-
 
 class HalanRocks(Resource):
     def get(self):
