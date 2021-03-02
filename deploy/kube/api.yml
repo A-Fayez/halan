@@ -45,7 +45,7 @@ spec:
         app: halan
     spec:
       containers:
-        - name: halan-ips
+        - name: halan
           image: afayez14/ips-api
           imagePullPolicy: IfNotPresent
 

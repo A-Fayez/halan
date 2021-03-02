@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -uo pipefail
+trap 's=$?; echo "$0: Error on line "$LINENO": $BASH_COMMAND"; exit $s' ERR
+IFS=$'\n\t'
+
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+
+: "${HELM_RELEASE_NAME:=pg-release}"
+: "${CLUSTER_NAME:=halan-cluster}"
+: "${APP_NAME:=halan}"
+
+# deploy postgres 
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install "${HELM_RELEASE_NAME}" bitnami/postgresql
+
+: "${DB_USER:=postgres}"
+: "${DB_HOST:=$HELM_RELEASE_NAME-postgresql}"
+: "${DB_PORT:=5432}"
+: "${DB_NAME:=postgres}"
+
+POSTGRESQL_PASSWORD=$(kubectl get secret --namespace default\
+    "${HELM_RELEASE_NAME}"-postgresql\
+    -o jsonpath="{.data.postgresql-password}" | base64 --decode)
+
+DATABASE_URL="postgres://${DB_USER}:${POSTGRESQL_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
+
+kubectl apply -f "${SCRIPT_DIR}"/api.yml
+kubectl set env deployment/"${APP_NAME}" DATABASE_URL="${DATABASE_URL}"
