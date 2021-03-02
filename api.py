@@ -16,7 +16,7 @@ class HalanRocks(Resource):
         if n:
             try:
                 n = int(n)
-            except:
+            except ValueError:
                 return "Invalid Number", 400
             return n * n
 

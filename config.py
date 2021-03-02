@@ -28,4 +28,5 @@ class Ip(db.Model):
     def __repr__(self):
         return f"ip: {self.ip_str}"
 
+
 db.create_all()
