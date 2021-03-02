@@ -8,14 +8,32 @@
 
 # Introduction
 
-A simple REST API that saves its visitors' IPs. The api is deployed to a kubernetes cluster baked by a PostgreSQL
+A simple REST API that saves its visitors' IPs. The api is deployed to a kubernetes cluster with a PostgreSQL
 database deployment in the same cluster.
 
 # Prerequisites
 
+- [Docker](https://docs.docker.com/engine/install/)
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [Helm](https://helm.sh/docs/intro/install/)
 - [k3d](https://rancher.com/docs/k3s/latest/en/installation/)
+
+- API built docker image. In this demo I've built the api image and pushed it to Docker Hub.
+  If you want to build your image from scratch and use it instead either from a private registr or a local
+  one, from the project root directory, simply run:
+
+```bash
+# example for building and pushing a new docker image from scratch
+$ docker build -t <tag-name> .
+# find the built image tag
+REPOSITORY     TAG               IMAGE ID       CREATED        SIZE
+<tag-name>    latest            <image-id>   1 hours ago     152MB
+
+# push to docker hub
+$ docker tag <image-id> <docker-hub-username>/<image-name>:<tag-name>
+```
+
+Then change image name in the [service resouce definition](https://github.com/A-Fayez/halan/blob/6f5ab53b79e619fd21f8caa4fd7e29f5a62a34d4/deploy/kube/api.yml#L49).
 
 # Installation
 
