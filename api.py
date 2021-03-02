@@ -12,6 +12,11 @@ if not os.getenv("DATABASE_URL"):
 
 class HalanRocks(Resource):
     def get(self):
+
+        ip = request.remote_addr
+        db.session.add(Ip(ip_str=ip))
+        db.session.commit()
+
         n = request.args.get("n")
         if n:
             try:
