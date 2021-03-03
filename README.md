@@ -19,7 +19,7 @@ database deployment in the same cluster.
 - [k3d](https://rancher.com/docs/k3s/latest/en/installation/)
 
 - API built docker image. In this demo I've built the api image and pushed it to Docker Hub.
-  If you want to build your image from scratch and use it instead either from a private registr or a local
+  If you want to build your image from scratch and use it instead either from a private registry or a local
   one, from the project root directory, simply run:
 
 ```bash
