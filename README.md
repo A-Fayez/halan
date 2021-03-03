@@ -69,7 +69,7 @@ $ curl localthost/allips
 
 # How it works
 
-Let's walk through some of the keystone commands in the bootstrap script and see how we got the cluster up and running.
+Let's walk through some of the keystone commands in the [bootstrap](deploy/kube/bootstrap) script and see how we got the cluster up and running.
 
 1.
 
@@ -80,16 +80,17 @@ $ k3d cluster create \
     "${CLUSTER_NAME}"
 ```
 
-The command creates a kubernetes cluster using rancher k3s with two agents and port-forwards traffic from the host port, in this case, INGRESS_HTTP_PORT to port 80 inside the cluster's load balancer. An [ingress resouce definition](https://github.com/A-Fayez/halan/blob/6f5ab53b79e619fd21f8caa4fd7e29f5a62a34d4/deploy/kube/api.yml#L2) is used to route requests to the [api service](https://github.com/A-Fayez/halan/blob/6f5ab53b79e619fd21f8caa4fd7e29f5a62a34d4/deploy/kube/api.yml#L19).
+The command creates a kubernetes cluster using rancher k3s with two agents and port-forwards traffic from the host port, in this case, INGRESS_HTTP_PORT to port 80 inside the cluster's load balancer. An [ingress resouce definition](https://github.com/A-Fayez/halan/blob/6f5ab53b79e619fd21f8caa4fd7e29f5a62a34d4/deploy/kube/api.yml#L2) is used to route requests to the [api service](https://github.com/A-Fayez/halan/blob/6f5ab53b79e619fd21f8caa4fd7e29f5a62a34d4/deploy/kube/api.yml#L19). This also configures `kubectl` and updates its config so you can connect and interact with the new cluster.
 
 2.
 
 ```bash
 $ helm repo add bitnami https://charts.bitnami.com/bitnami
-$ helm install "${HELM_RELEASE_NAME}" bitnami/postgresql
+$ helm install -f "${SCRIPT_DIR}/values.yml" "${HELM_RELEASE_NAME}" bitnami/postgresql \
+    --set postgresqlPassword=secretAdminPassword
 ```
 
-The command deploys a production-grade PostgreSQL on the Kubernetes cluster using [Bitnami's helm chart](https://github.com/bitnami/charts/tree/master/bitnami/postgresql/#installing-the-chart).
+The command deploys a production-grade PostgreSQL on the Kubernetes cluster using [Bitnami's helm chart](https://github.com/bitnami/charts/tree/master/bitnami/postgresql/#installing-the-chart). Here, we set a custom password for the db user. This password is used in the deployment from k8s secrets. However, for a production environment, it's best to use a more secure value, or ideally, use a vault.
 
 3.
 
