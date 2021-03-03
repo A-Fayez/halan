@@ -47,10 +47,10 @@ $ ./deploy/kube/bootstrap
 
 ```bash
 $ kubectl get pods
-NAME                      READY           STATUS    RESTARTS   AGE
-pg-release-postgresql-0   1/1             Running   0          73m
-halan-6d7f45d547-m5lkx    1/1             Running   2          73m
-pg-release-postgresql-read-0      1/1     Running   0          73m
+NAME                              READY           STATUS    RESTARTS   AGE
+pg-release-postgresql-0           1/1             Running   0          73m
+halan-6d7f45d547-m5lkx            1/1             Running   2          73m
+pg-release-postgresql-read-0      1/1             Running   0          73m
 ```
 
 3. Once the pods get scheduled, and at least one api pod and a database pod their status is ready,
